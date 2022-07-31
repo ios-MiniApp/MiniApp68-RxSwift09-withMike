@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     @IBOutlet private weak var resultLabel: UILabel!
 
     private let disposeBag = DisposeBag()
+    private var viewModel: ViewModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,15 +27,17 @@ class ViewController: UIViewController {
 
     private func setupDindings() {
 
-        let viewModel = ViewModel(
+        viewModel = ViewModel(
             numberText1: number1TextField.rx.text.orEmpty.asObservable(),
             numberText2: number2TextField.rx.text.orEmpty.asObservable(),
             numberText3: number3TextField.rx.text.orEmpty.asObservable(),
             outputButton: resultButton.rx.tap.asObservable()
         )
 
-        viewModel.AnswerText
-            .bind(to: resultLabel.rx.text)
+        viewModel?.AnswerText
+            .subscribe(onNext: { num in
+                self.resultLabel.text = String(num)
+            })
             .disposed(by: disposeBag)
     }
 
