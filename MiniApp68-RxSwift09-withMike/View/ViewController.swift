@@ -25,12 +25,15 @@ class ViewController: UIViewController {
     }
 
     private func setupDindings() {
-        let viewmodel = ViewModel(
+
+        let viewModel = ViewModel(
             numberText1: number1TextField.rx.text.orEmpty.asObservable(),
             numberText2: number2TextField.rx.text.orEmpty.asObservable(),
-            numberText3: number3TextField.rx.text.orEmpty.asObservable(), outputButton: resultButton.rx.tap.asObservable())
+            numberText3: number3TextField.rx.text.orEmpty.asObservable(),
+            outputButton: resultButton.rx.tap.asObservable()
+        )
 
-        viewmodel.AnswerText
+        viewModel.AnswerText
             .bind(to: resultLabel.rx.text)
             .disposed(by: disposeBag)
     }

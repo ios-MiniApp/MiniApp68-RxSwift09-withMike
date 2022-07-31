@@ -11,32 +11,40 @@ import RxCocoa
 
 class ViewModel {
 
-    var AnswerText: Observable<String>
+    var AnswerText: Observable<String> = Observable.of("0")
     let disposeBag = DisposeBag()
+    private var num1 = ""
+    private var  num2 = ""
+    private var num3 = ""
 
     init(numberText1: Observable<String>,
          numberText2: Observable<String>,
          numberText3: Observable<String>,
          outputButton: Observable<Void>){
 
-        //outputButton.subscribe(onNext: { [weak self] in
-            AnswerText = Observable
-                .combineLatest(numberText1, numberText2, numberText3)
-                .map({ text1, text2, text3 -> (String) in
-                    let num1 = Int(text1) ?? 0
-                    let num2 = Int(text2) ?? 0
-                    let num3 = Int(text3) ?? 0
-                    let answer = num1 + num2 + num3
-                    return String(answer)
-                })
-//                .subscribe(onNext: { text in
-//                    print(text)
-//                })
-//                .disposed(by: disposeBag)
-                //.disposed(by: self?.disposeBag)
+        Observable
+            .combineLatest(numberText1, numberText2, numberText3)
+            .subscribe(onNext: { text1, text2, text3 in
+                self.num1 = text1
+                self.num2 = text2
+                self.num3 = text3
+            })
+            .disposed(by: disposeBag)
 
-       // })
-        //.disposed(by: disposeBag)
+//        outputButton.asObservable()
+//            .subscribe(onNext: {
+//                print("here")
+//                self.AnswerText.asObservable()
+//                    //.subscribe(onNext: { print($0) })
+//                    .map{ _  -> String in
+//                        print("ae")
+//                        let numInt1 = Int(self.num1) ?? 0
+//                        let numInt2 = Int(self.num1) ?? 0
+//                        let numInt3 = Int(self.num1) ?? 0
+//                        return String(numInt1 + numInt2 + numInt3)
+//                    }
+//            })
+//            .disposed(by: disposeBag)
 
     }
 }
