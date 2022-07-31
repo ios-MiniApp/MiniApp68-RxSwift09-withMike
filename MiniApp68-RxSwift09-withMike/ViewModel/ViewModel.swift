@@ -23,7 +23,7 @@ class ViewModel {
          numberText3: Observable<String>,
          outputButton: Observable<Void>){
 
-        Observable.asObservable()
+        Observable
             .combineLatest(numberText1, numberText2, numberText3)
             .subscribe(onNext: { text1, text2, text3 in
                 self.num1 = Int(text1) ?? 0
